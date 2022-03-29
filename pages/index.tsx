@@ -10,6 +10,12 @@ import {
 } from './../containers'
 
 const Home: NextPage = () => {
+  const pseudoElements = [
+    { id: 1, content: 'first', source: 'http://localhost:3333/Cbde461Dp4o.png' },
+    { id: 2, content: 'second', source: 'http://localhost:3333/Cba6dcGuWL9.png' },
+    { id: 3, content: 'thirty', source: 'http://localhost:3333/Cbf_X39O-fP.png' },
+  ]
+
   return (
     <Main>
       <Head>
@@ -22,7 +28,7 @@ const Home: NextPage = () => {
         Hello world!
       </h1>
 
-      <Carrousel />
+      <Carrousel elements={pseudoElements} />
     </Main>
   )
 }

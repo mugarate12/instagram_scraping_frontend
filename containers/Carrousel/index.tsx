@@ -1,13 +1,24 @@
 import {
   useRef, 
   useEffect,
-  useState
+  useState,
+
+  UIEvent,
+  WheelEvent
 } from 'react'
+
+import {
+  CarrouselItem
+} from '../../components'
 
 import styles from './Carrousel.module.css'
 
 interface Props {
-
+  elements: Array<{
+    id: number, 
+    source: string,
+    content: string
+  }>
 }
 
 const width = 'w-64' /* 256px */
@@ -24,7 +35,7 @@ const itemContainerActive = `${primaryHeight} ${itemWidth} flex-none snap-center
 const itemContainerNonActive = `${SecondaryHeight} ${itemWidth} flex-none snap-center pointer-events-none md:blur-sm duration-75`
 const imgItemContainer = `h-full w-full object-cover`
 
-const Carrousel = () => {
+const Carrousel = ({ elements }: Props) => {
   const primary = 'center' // vai virar props
 
   const itemsRef = useRef<HTMLElement>(null)
@@ -34,61 +45,49 @@ const Carrousel = () => {
   const [ secondItemStyle, setSecondItemStyle ] = useState<string>(itemContainerActive)
   const [ ThirtyItemStyle, setThirtyItemStyle ] = useState<string>(itemContainerNonActive)
 
-  const firstImageSrc= 'http://localhost:3333/Cbde461Dp4o.png'
-  const secondImageSrc = 'http://localhost:3333/Cba6dcGuWL9.png'
-  const thirtyImageSrc= 'http://localhost:3333/Cbf_X39O-fP.png'
-  
+  // add wheel of mouse event to scroll images
+  function onWheelEvent(event: WheelEvent<HTMLElement>) {
+    const items = event.currentTarget
+
+    const delta = event.deltaY
+    const currentScroll = items.scrollLeft
+    const newScroll = currentScroll + delta
+
+    items.scrollLeft = newScroll
+  }
+
+  // add event scroll to identify item active
+  function onScrollEvent(event: UIEvent<HTMLElement, globalThis.UIEvent>) {
+    event.preventDefault()
+    const items = event.currentTarget
+
+    const currentScroll = items.scrollLeft
+
+    const scrollWidth = items.scrollWidth
+    const clientWidth = items.clientWidth
+
+    const scrollPercentage = currentScroll / (scrollWidth - clientWidth)
+    const firstImage = scrollPercentage === 0
+    const secondImage = scrollPercentage === 0.5 // scrolled to the middle
+    const thirtyImage = scrollPercentage === 1 // scrolled to the end
+    
+    if (firstImage) {
+      setActiveItem(1)
+    } else if (secondImage) {
+      setActiveItem(2)
+    } else if (thirtyImage) {
+      setActiveItem(3)
+    }
+  }
+
   // center element is default element apresented
   useEffect(() => {
     const items = itemsRef.current
     
     if (items) {
-      const scrollToSecondImage = items.scrollWidth / 3
+      console.log('da', items.scrollWidth);
+      const scrollToSecondImage = (items.scrollWidth / 3) - 100
       items.scrollLeft = scrollToSecondImage
-    }
-  }, [])
-
-  // add wheel of mouse event to scroll images
-  useEffect(() => {
-    if (!!itemsRef.current) {
-      const items = itemsRef.current
-
-      items.addEventListener('wheel', (event) => {
-        event.preventDefault()
-        
-        const delta = event.deltaY
-        const currentScroll = items.scrollLeft
-        const newScroll = currentScroll + delta
-
-        items.scrollLeft = newScroll
-      })
-    }
-  }, [])
-
-  // add event scroll to identify item active
-  useEffect(() => {
-    if (!!itemsRef.current) {
-      const items = itemsRef.current
-      
-      items.addEventListener('scroll', () => {
-        const currentScroll = items.scrollLeft
-
-        const scrollWidth = items.scrollWidth
-        const clientWidth = items.clientWidth
-
-        const scrollPercentage = currentScroll / (scrollWidth - clientWidth)
-        const firstImage = scrollPercentage === 0
-        const secondImage = scrollPercentage === 0.5 // scrolled to the middle
-        const thirtyImage = scrollPercentage === 1 // scrolled to the end
-        
-        if (firstImage) {
-          setActiveItem(1)
-        } else if (secondImage) {
-          setActiveItem(2)
-        } else if (thirtyImage) {
-          setActiveItem(3)
-        }
-      })
     }
   }, [])
 
@@ -109,6 +108,29 @@ const Carrousel = () => {
     }
   }, [ activeItem ])
 
+  function renderItems() {
+    return elements.map((element, index) => {
+      let itemStyle = ''
+      
+      if (index === 0) {
+        itemStyle = firstItemStyle
+      } else if (index === 1) {
+        itemStyle = secondItemStyle
+      } else if (index === 2) {
+        itemStyle = ThirtyItemStyle
+      }
+
+      return (
+        <CarrouselItem 
+          key={index}
+          containerClassName={itemStyle}
+          imgClassName={imgItemContainer}
+          imgSrc={element.source}
+        />
+      )
+    })
+  }
+
   return (
     <section 
       className={wrapperClassName}
@@ -118,27 +140,10 @@ const Carrousel = () => {
       <section 
         className={`${itemsClassName} ${styles.itemsWrapper}`} 
         ref={itemsRef}
+        onScroll={(e) => onScrollEvent(e)}
+        onWheel={(e) => onWheelEvent(e)}
       >
-        <div className={firstItemStyle}>
-          <img 
-            src={firstImageSrc} 
-            className={imgItemContainer} 
-          />
-        </div>
-        
-        <div className={secondItemStyle}>
-          <img 
-            src={secondImageSrc}
-            className={imgItemContainer}
-          />
-        </div>
-      
-        <div className={ThirtyItemStyle}>
-          <img 
-            src={thirtyImageSrc} 
-            className={imgItemContainer} 
-          />
-        </div>
+        {renderItems()}
       </section>
     </section>
   )
