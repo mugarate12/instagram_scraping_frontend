@@ -22,18 +22,20 @@ interface Props {
 }
 
 const width = 'w-64' /* 256px */
-const middleWidth = 'w-80' /* 320px */
+const middleWidth = 'md:w-[28rem]' /* more than 384px */
 const itemWidth = 'w-64' /* 256px */
 
 const primaryHeight = 'h-96'
 const SecondaryHeight = 'h-60'
 
-const wrapperClassName = `${primaryHeight} ${width} md:w-[28rem]`
+const wrapperClassName = `${primaryHeight} ${width} ${middleWidth} `
 const itemsClassName = `flex items-center overflow-x-auto snap-mandatory snap-x scroll-smooth`
 
 const itemContainerActive = `${primaryHeight} ${itemWidth} flex-none snap-center pointer-events-none duration-75`
 const itemContainerNonActive = `${SecondaryHeight} ${itemWidth} flex-none snap-center pointer-events-none md:blur-sm duration-75`
 const imgItemContainer = `h-full w-full object-cover`
+
+const middleImgText = `${width} ${middleWidth} mb-3 font-sans text-6xl text-center antialiased italic font-semibold truncate break-words`
 
 const Carrousel = ({ elements }: Props) => {
   const primary = 'center' // vai virar props
@@ -44,6 +46,8 @@ const Carrousel = ({ elements }: Props) => {
   const [ firstItemStyle, setFirstItemStyle ] = useState<string>(itemContainerNonActive)
   const [ secondItemStyle, setSecondItemStyle ] = useState<string>(itemContainerActive)
   const [ ThirtyItemStyle, setThirtyItemStyle ] = useState<string>(itemContainerNonActive)
+
+  const [ imagesContents, setImagesContents ] = useState<Array<string>>([])
 
   // add wheel of mouse event to scroll images
   function onWheelEvent(event: WheelEvent<HTMLElement>) {
@@ -85,7 +89,6 @@ const Carrousel = ({ elements }: Props) => {
     const items = itemsRef.current
     
     if (items) {
-      console.log('da', items.scrollWidth);
       const scrollToSecondImage = (items.scrollWidth / 3) - 100
       items.scrollLeft = scrollToSecondImage
     }
@@ -107,6 +110,12 @@ const Carrousel = ({ elements }: Props) => {
       setThirtyItemStyle(itemContainerActive)
     }
   }, [ activeItem ])
+
+  useEffect(() => {
+    const contents = elements.map(element => element.content)
+
+    setImagesContents(contents)
+  }, [ elements ])
 
   function renderItems() {
     return elements.map((element, index) => {
@@ -131,11 +140,17 @@ const Carrousel = ({ elements }: Props) => {
     })
   }
 
+  function renderImgText() {
+    if (imagesContents.length > 0) {
+      return imagesContents[activeItem - 1]
+    }
+  }
+
   return (
     <section 
       className={wrapperClassName}
     >
-      <p>opa</p>
+      <h2 className={middleImgText}>{renderImgText()}</h2>
 
       <section 
         className={`${itemsClassName} ${styles.itemsWrapper}`} 
