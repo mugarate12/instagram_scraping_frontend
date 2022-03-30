@@ -23,19 +23,32 @@ interface Props {
 
 const width = 'w-64' /* 256px */
 const middleWidth = 'md:w-[28rem]' /* more than 384px */
+const largeWidth = 'lg:w-full lg:max-w-5xl' /* more than 512px */
+
 const itemWidth = 'w-64' /* 256px */
+const itemWidthActiveLargeScreen = 'lg:w-72'
+const largeScreenItemWidth = 'lg:w-72' /* more than 512px */
 
-const primaryHeight = 'h-96'
-const SecondaryHeight = 'h-60'
+const wrapperHeight = 'h-auto'
 
-const wrapperClassName = `${primaryHeight} ${width} ${middleWidth} `
-const itemsClassName = `flex items-center overflow-x-auto snap-mandatory snap-x scroll-smooth`
+const primaryHeight = 'h-96 lg:h-[476px]' /* 384px */
+const SecondaryHeight = 'h-60 lg:h-72 lg:h-[380px]' /* 288px */
 
-const itemContainerActive = `${primaryHeight} ${itemWidth} flex-none snap-center pointer-events-none duration-75`
-const itemContainerNonActive = `${SecondaryHeight} ${itemWidth} flex-none snap-center pointer-events-none md:blur-sm duration-75`
+const wrapperClassName = `mb-8 lg:mb-0 ${wrapperHeight} ${width} ${middleWidth} ${largeWidth}`
+
+const itemsClassNameToLargeScreens = 'lg:h-[710px] lg:grid lg:grid-cols-3 lg:justify-items-center lg:content-center lg:overflow-x-auto'
+const itemsClassNameToSmallAndMediumScreens = `flex md:items-center overflow-x-auto snap-mandatory snap-x scroll-smooth`
+const itemsClassName = `${itemsClassNameToSmallAndMediumScreens} ${itemsClassNameToLargeScreens}`
+
+const itemMiddleScreenActiveStyle = 'flex-none snap-center pointer-events-none duration-75'
+const itemMiddleScreenNonActiveStyle = 'flex-none snap-center pointer-events-none blur-sm duration-75 lg:blur-none'
+
+const itemContainerActive = `${primaryHeight} ${itemWidth} ${itemWidthActiveLargeScreen} ${itemMiddleScreenActiveStyle}`
+const itemContainerNonActive = `${SecondaryHeight} ${itemWidth} ${largeScreenItemWidth} ${itemMiddleScreenNonActiveStyle}`
 const imgItemContainer = `h-full w-full object-cover`
 
-const middleImgText = `${width} ${middleWidth} mb-3 font-sans text-6xl text-center antialiased italic font-semibold truncate break-words`
+const middleImgText = `lg:hidden ${width} ${middleWidth} mb-3 font-sans text-6xl text-center antialiased italic font-semibold truncate break-words`
+const largeScreensImgText = "hidden lg:block mb-8 font-mono text-8xl text-center antialiased italic font-semibold tracking-tighter truncate break-words"
 
 const Carrousel = ({ elements }: Props) => {
   const primary = 'center' // vai virar props
@@ -133,8 +146,10 @@ const Carrousel = ({ elements }: Props) => {
         <CarrouselItem 
           key={index}
           containerClassName={itemStyle}
+          textClassName={largeScreensImgText}
           imgClassName={imgItemContainer}
           imgSrc={element.source}
+          text={element.content}
         />
       )
     })

@@ -10,7 +10,7 @@ import {
 
 const Header = () => {
   return (
-    <header className="w-full h-20 px-0.5 bg-white flex flex-row items-center justify-between">
+    <header className="w-full h-20 px-1.5 bg-white flex flex-row items-center justify-between">
       <section className='flex flex-row items-center gap-1'>
         <Image 
           src="/images/logo.jpg"
