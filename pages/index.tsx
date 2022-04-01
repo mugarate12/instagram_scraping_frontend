@@ -1,3 +1,8 @@
+import {
+  useState,
+  useEffect
+} from 'react'
+
 import type { NextPage } from 'next'
 import Head from 'next/head'
 
@@ -13,14 +18,46 @@ import {
   useGetPosts
 } from './../hooks'
 
+import {
+  posts
+} from './../interfaces'
+
 const Home: NextPage = () => {
   const posts = useGetPosts()
+  const [ formattedPosts, setFormattedPosts ] = useState<Array<posts.postInterface[]>>([])
 
-  const pseudoElements = [
-    { id: 1, content: 'first', source: 'http://localhost:3333/Cbde461Dp4o.png' },
-    { id: 2, content: 'second', source: 'http://localhost:3333/Cba6dcGuWL9.png' },
-    { id: 3, content: 'thirty', source: 'http://localhost:3333/Cbf_X39O-fP.png' },
-  ]
+  function formatPosts() {
+    let headquarters: Array<posts.postInterface[]> = []
+    let postsArray: posts.postInterface[] = []
+
+    // headquarters.push([])
+    posts.forEach((post, index) => {
+      if ((index + 1) % 3 === 0) {
+        postsArray.push(post)
+        headquarters.push(postsArray)
+
+        postsArray = []
+      } else {
+        postsArray.push(post)
+      }
+    })
+
+    console.log('matriz: ', headquarters);
+    setFormattedPosts(headquarters)
+  }
+
+  useEffect(() => {
+    formatPosts()
+  }, [ posts ])
+
+  function renderPosts() {
+    
+    return formattedPosts.map((posts, index) => {
+      return (
+        <Carrousel key={String(index)} elements={posts} />
+      )
+    })
+  }
 
   return (
     <Main>
@@ -30,8 +67,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Carrousel elements={pseudoElements} />
-      <Carrousel elements={pseudoElements} />
+      {renderPosts()}
     </Main>
   )
 }

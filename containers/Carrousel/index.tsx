@@ -7,21 +7,21 @@ import {
   WheelEvent
 } from 'react'
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons'
+
 import {
   CarrouselItem
 } from '../../components'
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons'
+import {
+  posts
+} from '../../interfaces'
 
 import styles from './Carrousel.module.css'
 
 interface Props {
-  elements: Array<{
-    id: number, 
-    source: string,
-    content: string
-  }>
+  elements: posts.postInterface[]
 }
 
 const width = 'w-64' /* 256px */

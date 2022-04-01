@@ -7,19 +7,16 @@ import {
   api
 } from '../config'
 
-interface postsInterface {
-  id: number,
-  content: string,
-  ref: string,
-  source: string,
-}
+import {
+  posts
+} from '../interfaces'
 
 interface getPostsResponse {
-  posts: postsInterface[]
+  posts: posts.postInterface[]
 }
 
 export default function useGetPosts() {
-  const [ posts, setPosts ] = useState<postsInterface[]>([])
+  const [ posts, setPosts ] = useState<posts.postInterface[]>([])
 
   async function get() {
     const response = await api.get<getPostsResponse>('/posts')
