@@ -40,7 +40,7 @@ const SecondaryHeight = 'h-60 lg:h-72 lg:h-[380px]' /* 288px */
 const wrapperClassName = `relative mb-8 lg:mb-0 ${wrapperHeight} ${width} ${middleWidth} ${largeWidth}`
 
 const itemsClassNameToLargeScreens = 'lg:h-[710px] lg:grid lg:grid-cols-3 lg:justify-items-center lg:content-center lg:overflow-x-auto'
-const itemsClassNameToSmallAndMediumScreens = `flex md:items-center overflow-x-auto snap-mandatory snap-x scroll-smooth`
+const itemsClassNameToSmallAndMediumScreens = `h-[384px] flex md:items-center overflow-x-auto snap-mandatory snap-x scroll-smooth`
 const itemsClassName = `relative ${itemsClassNameToSmallAndMediumScreens} ${itemsClassNameToLargeScreens}`
 
 const itemMiddleScreenActiveStyle = 'flex-none snap-center pointer-events-none duration-75'
@@ -53,8 +53,8 @@ const imgItemContainer = `h-full w-full object-cover`
 const middleImgText = `lg:hidden ${width} ${middleWidth} mb-3 font-sans text-6xl text-center antialiased italic font-semibold truncate break-words`
 const largeScreensImgText = "hidden lg:block mb-8 font-mono text-8xl text-center antialiased italic font-semibold tracking-tighter truncate break-words"
 
-const buttonLeftStyle = "absolute top-[calc(50%+25px)] left-1 w-12 h-12 py-2 px-2 flex justify-center items-center rounded-[50%] bg-stone-200 hover:bg-stone-400 text-gray-800 font-semibold drop-shadow-md duration-1000 z-10"
-const buttonRightStyle = "absolute top-[calc(50%+25px)] right-1 w-12 h-12 py-2 px-2 flex justify-center items-center rounded-[50%] bg-stone-200 hover:bg-stone-400 text-gray-800 font-semibold drop-shadow-md duration-1000 z-10"
+const buttonLeftStyle = "lg:hidden absolute top-[calc(50%+25px)] left-1 w-12 h-12 py-2 px-2 flex justify-center items-center rounded-[50%] bg-stone-200 hover:bg-stone-400 text-gray-800 font-semibold drop-shadow-md duration-1000 z-10"
+const buttonRightStyle = "lg:hidden absolute top-[calc(50%+25px)] right-1 w-12 h-12 py-2 px-2 flex justify-center items-center rounded-[50%] bg-stone-200 hover:bg-stone-400 text-gray-800 font-semibold drop-shadow-md duration-1000 z-10"
 
 const Carrousel = ({ elements }: Props) => {
   const primary = 'center' // vai virar props
@@ -136,6 +136,32 @@ const Carrousel = ({ elements }: Props) => {
     setImagesContents(contents)
   }, [ elements ])
 
+  function nextItem() {
+    const items = itemsRef.current
+
+    if (items) {
+      const scroll = items.scrollLeft
+      const scrollCount = 160
+
+      if (scroll !== 320) {
+        items.scrollLeft += scrollCount
+      }
+    }
+  }
+
+  function previousItem() {
+    const items = itemsRef.current
+
+    if (items) {
+      const scroll = items.scrollLeft
+      const scrollCount = 160
+
+      if (scroll !== 0) {
+        items.scrollLeft -= scrollCount
+      }
+    }
+  }
+
   function renderItems() {
     return elements.map((element, index) => {
       let itemStyle = ''
@@ -173,7 +199,10 @@ const Carrousel = ({ elements }: Props) => {
     >
       <h2 className={middleImgText}>{renderImgText()}</h2>
 
-      <button className={buttonLeftStyle}>
+      <button 
+        className={buttonLeftStyle}
+        onClick={previousItem}
+      >
         <FontAwesomeIcon
           icon={faArrowLeft}
           height='30px'
@@ -181,7 +210,10 @@ const Carrousel = ({ elements }: Props) => {
         />
       </button>
       
-      <button className={buttonRightStyle}>
+      <button 
+        className={buttonRightStyle}
+        onClick={nextItem}
+      >
         <FontAwesomeIcon
           icon={faArrowRight}
           height='30px'
