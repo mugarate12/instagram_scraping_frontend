@@ -9,7 +9,13 @@ import {
   Carrousel
 } from './../containers'
 
+import {
+  useGetPosts
+} from './../hooks'
+
 const Home: NextPage = () => {
+  const posts = useGetPosts()
+
   const pseudoElements = [
     { id: 1, content: 'first', source: 'http://localhost:3333/Cbde461Dp4o.png' },
     { id: 2, content: 'second', source: 'http://localhost:3333/Cba6dcGuWL9.png' },
