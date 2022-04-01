@@ -50,8 +50,8 @@ const itemContainerActive = `${primaryHeight} ${itemWidth} ${itemWidthActiveLarg
 const itemContainerNonActive = `${SecondaryHeight} ${itemWidth} ${largeScreenItemWidth} ${itemMiddleScreenNonActiveStyle}`
 const imgItemContainer = `h-full w-full object-cover`
 
-const middleImgText = `lg:hidden ${width} ${middleWidth} mb-3 font-sans text-6xl text-center antialiased italic font-semibold truncate break-words`
-const largeScreensImgText = "hidden lg:block mb-8 font-mono text-8xl text-center antialiased italic font-semibold tracking-tighter truncate break-words"
+const middleImgText = `lg:hidden ${width} ${middleWidth} mb-3 font-sans text-2xl text-center antialiased italic font-semibold truncate break-words`
+const largeScreensImgText = "hidden lg:block mb-8 font-mono text-3xl text-center antialiased italic font-semibold tracking-tighter truncate break-words"
 
 const buttonLeftStyle = "lg:hidden absolute top-[calc(50%+25px)] left-1 w-12 h-12 py-2 px-2 flex justify-center items-center rounded-[50%] bg-stone-200 hover:bg-stone-400 text-gray-800 font-semibold drop-shadow-md duration-1000 z-10"
 const buttonRightStyle = "lg:hidden absolute top-[calc(50%+25px)] right-1 w-12 h-12 py-2 px-2 flex justify-center items-center rounded-[50%] bg-stone-200 hover:bg-stone-400 text-gray-800 font-semibold drop-shadow-md duration-1000 z-10"
