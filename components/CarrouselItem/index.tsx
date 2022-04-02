@@ -7,9 +7,11 @@ interface Props {
   alt?: string,
 
   text?: string,
+
+  onClick?: Function
 }
 
-const CarrouselItem = ({ containerClassName, imgClassName, textClassName, imgSrc, alt, text }: Props) => {
+const CarrouselItem = ({ containerClassName, imgClassName, textClassName, imgSrc, alt, text, onClick }: Props) => {
   return (
     <div className={containerClassName}>
       <p className={textClassName}>{text}</p>
@@ -17,7 +19,10 @@ const CarrouselItem = ({ containerClassName, imgClassName, textClassName, imgSrc
       <img 
         className={imgClassName}
         src={imgSrc} 
-        alt={alt} 
+        alt={alt}
+        onClick={() => {
+          if (onClick) onClick()
+        }}
       />
     </div>
   )

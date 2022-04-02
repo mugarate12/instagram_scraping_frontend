@@ -15,6 +15,10 @@ import {
 } from '../../components'
 
 import {
+  ImageModal
+} from './../'
+
+import {
   posts
 } from '../../interfaces'
 
@@ -130,6 +134,7 @@ const Carrousel = ({ elements }: Props) => {
     }
   }, [ activeItem ])
 
+  // format content to use in small and medium
   useEffect(() => {
     const contents = elements.map(element => element.content)
 

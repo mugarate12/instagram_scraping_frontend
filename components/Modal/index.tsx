@@ -5,8 +5,8 @@ import {
 } from 'react'
 
 interface Props {
-  children: React.ReactNode,
   setShowModal: Dispatch<SetStateAction<boolean>>,
+  children?: React.ReactNode,
   className?: string,
 }
 
@@ -21,7 +21,7 @@ const Modal = ({ children, className, setShowModal }: Props) => {
 
   return (
     <div 
-      className={`  ${className}`}
+      className={`absolute top-0 left-0 h-screen w-full bg-transparent z-20 ${className}`}
       onKeyDown={(event) => closeModal(event)}
     >
       {children}
