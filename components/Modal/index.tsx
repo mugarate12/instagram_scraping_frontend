@@ -1,4 +1,6 @@
 import {
+  useEffect,
+
   SetStateAction,
   Dispatch,
   KeyboardEvent
@@ -11,18 +13,27 @@ interface Props {
 }
 
 const Modal = ({ children, className, setShowModal }: Props) => {
-  function closeModal(event: KeyboardEvent<HTMLDivElement>) {
-    event.preventDefault()
+  function closeModal() {
+    setShowModal(false)
+  }
 
-    if (event.key === 'Escape') {
-      setShowModal(false)
+  function closeModalWithEscapeKey(event: any) {
+    if(event.keyCode === 27) {
+      closeModal()
     }
   }
+
+  useEffect(() => {
+    const clientSideRendering = typeof window !== "undefined"
+
+    if (clientSideRendering) {
+      document.addEventListener("keydown", closeModalWithEscapeKey, false);
+    }
+  }, [])
 
   return (
     <div 
       className={`absolute top-0 left-0 h-screen w-full bg-transparent z-20 ${className}`}
-      onKeyDown={(event) => closeModal(event)}
     >
       {children}
     </div>

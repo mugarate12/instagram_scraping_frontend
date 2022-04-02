@@ -4,7 +4,9 @@ import {
   useState,
 
   UIEvent,
-  WheelEvent
+  WheelEvent,
+  Dispatch,
+  SetStateAction
 } from 'react'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -15,17 +17,14 @@ import {
 } from '../../components'
 
 import {
-  ImageModal
-} from './../'
-
-import {
   posts
 } from '../../interfaces'
 
 import styles from './Carrousel.module.css'
 
 interface Props {
-  elements: posts.postInterface[]
+  elements: posts.postInterface[],
+  setSelectedImage?: Dispatch<SetStateAction<posts.postInterface | undefined>>
 }
 
 const width = 'w-64' /* 256px */
@@ -60,7 +59,7 @@ const largeScreensImgText = "hidden lg:block mb-8 font-mono text-3xl text-center
 const buttonLeftStyle = "lg:hidden absolute top-[calc(50%+25px)] left-1 w-12 h-12 py-2 px-2 flex justify-center items-center rounded-[50%] bg-stone-200 hover:bg-stone-400 text-gray-800 font-semibold drop-shadow-md duration-1000 z-10"
 const buttonRightStyle = "lg:hidden absolute top-[calc(50%+25px)] right-1 w-12 h-12 py-2 px-2 flex justify-center items-center rounded-[50%] bg-stone-200 hover:bg-stone-400 text-gray-800 font-semibold drop-shadow-md duration-1000 z-10"
 
-const Carrousel = ({ elements }: Props) => {
+const Carrousel = ({ elements, setSelectedImage }: Props) => {
   const primary = 'center' // vai virar props
 
   const itemsRef = useRef<HTMLElement>(null)
@@ -167,6 +166,15 @@ const Carrousel = ({ elements }: Props) => {
     }
   }
 
+  function handleItemOnClick() {
+    if (!!setSelectedImage) {
+      const post = elements[activeItem - 1]
+
+      setSelectedImage(post)
+      console.log(post)
+    }	
+  }
+
   function renderItems() {
     return elements.map((element, index) => {
       let itemStyle = ''
@@ -231,6 +239,7 @@ const Carrousel = ({ elements }: Props) => {
         ref={itemsRef}
         onScroll={(e) => onScrollEvent(e)}
         onWheel={(e) => onWheelEvent(e)}
+        onClick={handleItemOnClick}
       >
         {renderItems()}
       </section>

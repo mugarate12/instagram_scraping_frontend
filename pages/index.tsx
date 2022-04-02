@@ -11,7 +11,8 @@ import {
 } from './../components'
 
 import {
-  Carrousel
+  Carrousel,
+  ImageModal
 } from './../containers'
 
 import {
@@ -24,7 +25,11 @@ import {
 
 const Home: NextPage = () => {
   const posts = useGetPosts()
+  
   const [ formattedPosts, setFormattedPosts ] = useState<Array<posts.postInterface[]>>([])
+  const [ selectedImage, setSelectedImage ] = useState<posts.postInterface>()
+
+  const [ isImageModalOpen, setIsImageModalOpen ] = useState<boolean>(false)
 
   function formatPosts() {
     let headquarters: Array<posts.postInterface[]> = []
@@ -50,13 +55,37 @@ const Home: NextPage = () => {
     formatPosts()
   }, [ posts ])
 
+  // if image was selected open modal
+  useEffect(() => {
+    if (!!selectedImage) {
+      setIsImageModalOpen(true)
+    }
+  }, [ selectedImage ])
+  
+  // define imageSelected to undefined if modal is closed
+  useEffect(() => {
+    if (!isImageModalOpen) {
+      setSelectedImage(undefined)
+    }
+  }, [ isImageModalOpen ])
+
   function renderPosts() {
-    
     return formattedPosts.map((posts, index) => {
       return (
-        <Carrousel key={String(index)} elements={posts} />
+        <Carrousel key={String(index)} elements={posts} setSelectedImage={setSelectedImage} />
       )
     })
+  }
+
+  function renderImageModal() {
+    if (selectedImage && isImageModalOpen) {
+      return (
+        <ImageModal
+          post={selectedImage}
+          setShowModal={setIsImageModalOpen}
+        />
+      )
+    }
   }
 
   return (
@@ -67,6 +96,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
+      {renderImageModal()}
       {renderPosts()}
     </Main>
   )
