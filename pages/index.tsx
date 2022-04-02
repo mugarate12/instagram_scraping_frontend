@@ -16,6 +16,7 @@ import {
 } from './../containers'
 
 import {
+  useDisableScrollPage,
   useGetPosts
 } from './../hooks'
 
@@ -28,9 +29,10 @@ const Home: NextPage = () => {
   
   const [ formattedPosts, setFormattedPosts ] = useState<Array<posts.postInterface[]>>([])
   const [ selectedImage, setSelectedImage ] = useState<posts.postInterface>()
-
+  
   const [ isImageModalOpen, setIsImageModalOpen ] = useState<boolean>(false)
-
+  const disableScroll = useDisableScrollPage({ state: isImageModalOpen })
+  
   function formatPosts() {
     let headquarters: Array<posts.postInterface[]> = []
     let postsArray: posts.postInterface[] = []

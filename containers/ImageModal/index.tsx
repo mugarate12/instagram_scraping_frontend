@@ -30,7 +30,7 @@ const ImageModal = ({ post, setShowModal }: Props) => {
         src={post.source}
         alt="post"
         onClick={() => goToPost()}
-        className='h-5/6 w-4/5'
+        className='h-5/6 w-3/4 object-cover'
       />
     </Modal>
   )
