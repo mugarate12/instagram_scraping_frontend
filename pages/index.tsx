@@ -79,17 +79,6 @@ const Home: NextPage = () => {
     })
   }
 
-  function renderImageModal() {
-    if (selectedImage && isImageModalOpen) {
-      return (
-        <ImageModal
-          post={selectedImage}
-          setShowModal={setIsImageModalOpen}
-        />
-      )
-    }
-  }
-
   return (
     <Main>
       <Head>
@@ -98,7 +87,11 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      {renderImageModal()}
+      <ImageModal
+        post={selectedImage}
+        showModalState={isImageModalOpen}
+        setShowModal={setIsImageModalOpen}
+      />
       {renderPosts()}
     </Main>
   )

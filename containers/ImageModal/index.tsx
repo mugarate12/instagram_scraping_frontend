@@ -11,26 +11,37 @@ import {
   posts
 } from './../../interfaces'
 
+import styles from './ImageModal.module.css'
+
 interface Props {
-  post: posts.postInterface,
+  post: posts.postInterface | undefined,
+  showModalState: boolean,
   setShowModal: Dispatch<SetStateAction<boolean>>,
 }
 
-const ImageModal = ({ post, setShowModal }: Props) => {
+const ImageModal = ({ post, showModalState, setShowModal }: Props) => {
   function goToPost() {
-    window.open(post.ref, '_blank')
+    if (!!post) {
+      window.open(post.ref, '_blank')
+    }
+  }
+
+  function setShowModalClass() {
+    if (!showModalState) {
+      return "hidden"
+    }
   }
 
   return (
     <Modal
       setShowModal={setShowModal}
-      className="flex justify-center items-center"
+      className={`${setShowModalClass()} flex justify-center items-center bg-black ${styles.modal}`}
     >
       <img 
-        src={post.source}
+        src={!!post ? post.source : ""}
         alt="post"
         onClick={() => goToPost()}
-        className='h-5/6 w-3/4 object-cover'
+        className={`h-5/6 w-2/4 min-w-[250px] min-h-[400px] max-w-lg object-cover ${styles.img}`}
       />
     </Modal>
   )

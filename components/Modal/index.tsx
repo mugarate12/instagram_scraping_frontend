@@ -33,7 +33,8 @@ const Modal = ({ children, className, setShowModal }: Props) => {
 
   return (
     <div 
-      className={`absolute top-0 left-0 h-screen w-full bg-transparent z-20 ${className}`}
+      className={`fixed top-0 left-0 h-screen w-full bg-transparent z-20 ${className}`}
+      onClick={closeModal}
     >
       {children}
     </div>
