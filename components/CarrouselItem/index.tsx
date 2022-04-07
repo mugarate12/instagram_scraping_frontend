@@ -11,7 +11,9 @@ interface Props {
 
 const CarrouselItem = ({ containerClassName, imgClassName, textClassName, imgSrc, alt, text }: Props) => {
   return (
-    <div className={containerClassName}>
+    <div className={containerClassName} onClick={() => {
+      console.log('object');
+    }}>
       <p className={textClassName}>{text}</p>
 
       <img 

@@ -40,7 +40,7 @@ const wrapperHeight = 'h-auto'
 const primaryHeight = 'h-96 lg:h-[476px]' /* 384px */
 const SecondaryHeight = 'h-60 lg:h-72 lg:h-[380px]' /* 288px */
 
-const wrapperClassName = `relative mb-8 lg:mb-0 ${wrapperHeight} ${width} ${middleWidth} ${largeWidth}`
+const wrapperClassName = `lg:hidden relative mb-8 lg:mb-0 ${wrapperHeight} ${width} ${middleWidth} ${largeWidth}`
 
 const itemsClassNameToLargeScreens = 'lg:h-[710px] lg:grid lg:grid-cols-3 lg:justify-items-center lg:content-center lg:overflow-x-auto'
 const itemsClassNameToSmallAndMediumScreens = `h-[384px] flex md:items-center overflow-x-auto snap-mandatory snap-x scroll-smooth`
@@ -59,12 +59,20 @@ const largeScreensImgText = "hidden lg:block mb-8 font-mono text-3xl text-center
 const buttonLeftStyle = "lg:hidden absolute top-[calc(50%+25px)] left-1 w-12 h-12 py-2 px-2 flex justify-center items-center rounded-[50%] bg-stone-200 hover:bg-stone-400 text-gray-800 font-semibold drop-shadow-md duration-1000 z-10"
 const buttonRightStyle = "lg:hidden absolute top-[calc(50%+25px)] right-1 w-12 h-12 py-2 px-2 flex justify-center items-center rounded-[50%] bg-stone-200 hover:bg-stone-400 text-gray-800 font-semibold drop-shadow-md duration-1000 z-10"
 
+// styles to large screens without use carrousel
+const largeScreenContainerStyle = "hidden w-full max-w-screen-lg mt-16 px-4 xl:px-0 lg:grid grid-cols-3 gap-[30px] justify-items-center items-center"
+const largeScreenItemContainerStyle = "h-fit max-w-xs" /* max-width: 20rem/320px */
+const textImgWithoutCarrousel = 'mb-8 font-mono text-3xl text-center antialiased italic font-semibold tracking-tighter truncate break-words'
+
+const PrimaryImgStyleWithoutCarrousel = 'h-[476px] w-full object-cover' 
+const SecondaryImgStyleWithoutCarrousel = 'h-96 w-full object-cover' /* height: 384px */
+
 const Carrousel = ({ elements, setSelectedImage }: Props) => {
   const primary = 'center' // vai virar props
 
   const itemsRef = useRef<HTMLElement>(null)
   
-  const [ activeItem, setActiveItem ] = useState<number>(primary === 'center' ? 2 : 1)
+  const [ activeItem, setActiveItem ] = useState<number>(2)
   const [ firstItemStyle, setFirstItemStyle ] = useState<string>(itemContainerNonActive)
   const [ secondItemStyle, setSecondItemStyle ] = useState<string>(itemContainerActive)
   const [ ThirtyItemStyle, setThirtyItemStyle ] = useState<string>(itemContainerNonActive)
@@ -206,44 +214,81 @@ const Carrousel = ({ elements, setSelectedImage }: Props) => {
     }
   }
 
+  function renderImgsLargeScreensWithoutCarrousel() {
+    return elements.map((element, index) => {
+      const imgStyle = (index + 1) % 2 === 0 ? PrimaryImgStyleWithoutCarrousel : SecondaryImgStyleWithoutCarrousel
+
+      return (
+        <section
+          className={largeScreenItemContainerStyle}
+          key={String(index)}
+          onClick={() => {
+            if (!!setSelectedImage) {
+              setSelectedImage(element)
+            }
+          }}
+        >
+          <p 
+            className={textImgWithoutCarrousel}
+          >{element.content}</p>
+
+          <img 
+            src={element.source} 
+            alt="post image" 
+            className={imgStyle}
+          />
+        </section>
+      )
+    })
+  }
+
   return (
-    <section 
-      className={wrapperClassName}
-    >
-      <h2 className={middleImgText}>{renderImgText()}</h2>
-
-      <button 
-        className={buttonLeftStyle}
-        onClick={previousItem}
-      >
-        <FontAwesomeIcon
-          icon={faArrowLeft}
-          height='30px'
-          width='30px' 
-        />
-      </button>
-      
-      <button 
-        className={buttonRightStyle}
-        onClick={nextItem}
-      >
-        <FontAwesomeIcon
-          icon={faArrowRight}
-          height='30px'
-          width='30px' 
-        />
-      </button>
-
+    <>
       <section 
-        className={`${itemsClassName} ${styles.itemsWrapper}`} 
-        ref={itemsRef}
-        onScroll={(e) => onScrollEvent(e)}
-        onWheel={(e) => onWheelEvent(e)}
-        onClick={handleItemOnClick}
+        className={wrapperClassName}
       >
-        {renderItems()}
+        <h2 className={middleImgText}>{renderImgText()}</h2>
+
+        <button 
+          className={buttonLeftStyle}
+          onClick={previousItem}
+        >
+          <FontAwesomeIcon
+            icon={faArrowLeft}
+            height='30px'
+            width='30px' 
+          />
+        </button>
+        
+        <button 
+          className={buttonRightStyle}
+          onClick={nextItem}
+        >
+          <FontAwesomeIcon
+            icon={faArrowRight}
+            height='30px'
+            width='30px' 
+          />
+        </button>
+
+        <section 
+          className={`${itemsClassName} ${styles.itemsWrapper}`} 
+          ref={itemsRef}
+          onScroll={(e) => onScrollEvent(e)}
+          onWheel={(e) => onWheelEvent(e)}
+          onClick={handleItemOnClick}
+        >
+          {renderItems()}
+        </section>
       </section>
-    </section>
+    
+      <section
+        className={largeScreenContainerStyle}
+      >
+        {renderImgsLargeScreensWithoutCarrousel()}
+      </section>
+    </>
+    
   )
 }
 

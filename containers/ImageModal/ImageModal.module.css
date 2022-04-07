@@ -59,9 +59,9 @@
 }
 
 .modal {
-  animation: colors 1.5s linear;
+  animation: colors 0.5s linear;
 }
 
 .img {
-  animation: showImg 1.5s linear;
+  animation: showImg 0.5s linear;
 }
