@@ -6,6 +6,9 @@ import {
   KeyboardEvent
 } from 'react'
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faXmarkCircle } from '@fortawesome/free-solid-svg-icons'
+
 interface Props {
   setShowModal: Dispatch<SetStateAction<boolean>>,
   children?: React.ReactNode,
@@ -23,6 +26,12 @@ const Modal = ({ children, className, setShowModal }: Props) => {
     }
   }
 
+  function handleCloseModal() {
+    if (!!window && window.innerWidth >= 1024) {
+      closeModal()
+    }    
+  }
+
   useEffect(() => {
     const clientSideRendering = typeof window !== "undefined"
 
@@ -34,8 +43,15 @@ const Modal = ({ children, className, setShowModal }: Props) => {
   return (
     <div 
       className={`fixed top-0 left-0 h-screen w-full bg-transparent z-20 ${className}`}
-      onClick={closeModal}
+      onClick={handleCloseModal}
     >
+      <button 
+        className='absolute lg:hidden top-[30px] right-[15px]' 
+        onClick={closeModal}
+      >
+        <FontAwesomeIcon icon={faXmarkCircle} width='30px' height='30px' className='text-white'/>
+      </button>
+
       {children}
     </div>
   )
