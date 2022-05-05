@@ -46,7 +46,7 @@ const Modal = ({ children, className, setShowModal }: Props) => {
       onClick={handleCloseModal}
     >
       <button 
-        className='absolute lg:hidden top-[30px] right-[15px]' 
+        className='absolute top-[30px] right-[15px] animate-bounce' 
         onClick={closeModal}
       >
         <FontAwesomeIcon icon={faXmarkCircle} width='30px' height='30px' className='text-white'/>

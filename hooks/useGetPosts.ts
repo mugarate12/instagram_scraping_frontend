@@ -2,6 +2,7 @@ import {
   useState,
   useEffect
 } from 'react'
+import https from 'https'	
 
 import {
   api
@@ -15,12 +16,17 @@ interface getPostsResponse {
   posts: posts.postInterface[]
 }
 
+const agent = new https.Agent({  
+  rejectUnauthorized: false
+});
+
 export default function useGetPosts() {
   const [ posts, setPosts ] = useState<posts.postInterface[]>([])
 
   async function get() {
-    const response = await api.get<getPostsResponse>('/posts')
+    await api.get<getPostsResponse>('/posts')
       .then(response => {
+        console.log(`requisitando informações de ${response.config.baseURL}`);
         setPosts(response.data.posts)
       })
       .catch(error => {
