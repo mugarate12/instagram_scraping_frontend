@@ -85,7 +85,7 @@ const ImageModal = ({ post, showModalState, setShowModal }: Props) => {
       className={`${setShowModalClass()} flex flex-col justify-center items-center bg-black ${styles.modal}`}
     >
       <p
-        className={`max-w-sm md:max-w-md lg:max-w-lg mb-8 font-mono text-3xl text-center antialiased italic font-semibold text-white tracking-tighter line-clamp-2`}
+        className={`max-w-sm md:max-w-md lg:max-w-lg mb-8 font-mono text-3xl text-center antialiased italic font-semibold text-white tracking-tighter line-clamp-2 ${styles.text}`}
       >{postContent}</p>
 
       <div className='h-5/6 w-2/4 min-w-[300px] min-h-[400px] max-w-lg flex flex-col justify-center items-center'>
@@ -96,7 +96,7 @@ const ImageModal = ({ post, showModalState, setShowModal }: Props) => {
           className={`h-full w-full object-cover ${styles.img}`}
         />
 
-        <p className='mb-4 text-white text-2xl self-end'>{postContentTags}</p>
+        <p className={`mb-4 text-white text-2xl self-end ${styles.text}`}>{postContentTags}</p>
       </div>
 
     </Modal>

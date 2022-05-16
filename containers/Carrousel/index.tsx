@@ -46,8 +46,8 @@ const itemsClassNameToLargeScreens = 'lg:h-[710px] lg:grid lg:grid-cols-3 lg:jus
 const itemsClassNameToSmallAndMediumScreens = `h-[384px] flex md:items-center overflow-x-auto snap-mandatory snap-x scroll-smooth`
 const itemsClassName = `relative ${itemsClassNameToSmallAndMediumScreens} ${itemsClassNameToLargeScreens}`
 
-const itemMiddleScreenActiveStyle = 'flex-none snap-center pointer-events-none duration-75'
-const itemMiddleScreenNonActiveStyle = 'flex-none snap-center pointer-events-none blur-sm duration-75 lg:blur-none'
+const itemMiddleScreenActiveStyle = `flex-none snap-center pointer-events-none ${styles.imageEffect}`
+const itemMiddleScreenNonActiveStyle = `flex-none snap-center pointer-events-none blur-sm lg:blur-none  ${styles.imageEffect}`
 
 const itemContainerActive = `${primaryHeight} ${itemWidth} ${itemWidthActiveLargeScreen} ${itemMiddleScreenActiveStyle}`
 const itemContainerNonActive = `${SecondaryHeight} ${itemWidth} ${largeScreenItemWidth} ${itemMiddleScreenNonActiveStyle}`

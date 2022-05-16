@@ -37,24 +37,24 @@
   }
 }
 
-@keyframes showImg {
+@keyframes delayToShow {
   0% {
-    min-height: 0%;
+    opacity: 0;
   }
   20% {
-    min-height: 20%;
+    opacity: 0;
   }
   40% {
-    min-height: 40%;
+    opacity: 0;
   }
   60% {
-    min-height: 60%;
+    opacity: 0;
   }
   80% {
-    min-height: 80%;
+    opacity: 0.5;
   }
   100% {
-    min-height: 100%;
+    opacity: 1;
   }
 }
 
@@ -63,5 +63,9 @@
 }
 
 .img {
-  animation: showImg 0.5s linear;
+  animation: delayToShow 0.8s linear;
+}
+
+.text {
+  animation: delayToShow 0.8s linear;
 }

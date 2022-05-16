@@ -8,3 +8,7 @@
 .itemsWrapper::-webkit-scrollbar {
   display: none;
 }
+
+.imageEffect {
+  transition: 10ms;
+}
